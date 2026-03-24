@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Poppins:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-background: hsl(40, 30%, 96%);
+  --color-foreground: hsl(30, 25%, 15%);
+  --color-border: hsl(35, 20%, 88%);
+  --color-input: hsl(35, 20%, 88%);
+  --color-ring: hsl(28, 95%, 58%);
+
+  --color-primary-background: hsl(28, 95%, 58%);
+  --color-primary-foreground: hsl(0, 0%, 100%);
+  --color-primary-hover: hsl(28, 95%, 50%);
+  --color-primary-active: hsl(28, 95%, 44%);
+
+  --color-secondary-background: hsl(355, 78%, 62%);
+  --color-secondary-foreground: hsl(0, 0%, 100%);
+
+  --color-tertiary-background: hsl(40, 40%, 94%);
+  --color-tertiary-foreground: hsl(30, 25%, 15%);
+
+  --color-accent-background: hsl(150, 55%, 46%);
+  --color-accent-foreground: hsl(0, 0%, 100%);
+
+  --color-card: hsl(0, 0%, 100%);
+  --color-card-foreground: hsl(30, 25%, 15%);
+
+  --color-muted: hsl(40, 20%, 93%);
+  --color-muted-foreground: hsl(35, 12%, 52%);
+
+  --color-success: hsl(150, 55%, 40%);
+  --color-warning: hsl(38, 92%, 50%);
+  --color-error: hsl(0, 78%, 54%);
+  --color-info: hsl(200, 88%, 52%);
+
+  --color-sidebar: hsl(30, 20%, 18%);
+  --color-sidebar-hover: hsl(30, 18%, 24%);
+  --color-sidebar-active: hsl(28, 80%, 55%);
+  --color-sidebar-foreground: hsl(0, 0%, 100%);
+  --color-sidebar-muted: hsl(35, 15%, 62%);
+  --color-sidebar-border: hsl(30, 15%, 24%);
+
+  --font-sans: 'Nunito', sans-serif;
+  --font-heading: 'Poppins', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+  --radius-full: 9999px;
+
+  --sidebar-width: 256px;
+}
+
+html, body {
+  background-color: hsl(40, 30%, 96%);
+  color: hsl(30, 25%, 15%);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
+
+:focus-visible {
+  outline: 2px solid hsl(213, 94%, 55%);
+  outline-offset: 2px;
+}
+
+/* Scrollbar */
+.scrollbar-thin::-webkit-scrollbar { width: 5px; height: 5px; }
+.scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+.scrollbar-thin::-webkit-scrollbar-thumb { background: hsl(220, 15%, 80%); border-radius: 3px; }
+.scrollbar-thin::-webkit-scrollbar-thumb:hover { background: hsl(220, 15%, 68%); }
+
+/* Sidebar scrollbar (dark) */
+.sidebar-scroll::-webkit-scrollbar { width: 4px; }
+.sidebar-scroll::-webkit-scrollbar-track { background: transparent; }
+.sidebar-scroll::-webkit-scrollbar-thumb { background: hsl(224, 20%, 28%); border-radius: 3px; }
+
+/* Metric card gradient overlays */
+.metric-gradient-blue   { background: linear-gradient(135deg, hsl(200, 88%, 52%) 0%, hsl(210, 88%, 62%) 100%); }
+.metric-gradient-amber  { background: linear-gradient(135deg, hsl(28, 95%, 58%) 0%, hsl(38, 92%, 64%) 100%); }
+.metric-gradient-green  { background: linear-gradient(135deg, hsl(150, 55%, 40%) 0%, hsl(160, 55%, 48%) 100%); }
+.metric-gradient-red    { background: linear-gradient(135deg, hsl(0, 78%, 54%) 0%, hsl(14, 85%, 60%) 100%); }
+.metric-gradient-purple { background: linear-gradient(135deg, hsl(355, 78%, 62%) 0%, hsl(340, 75%, 68%) 100%); }
+.metric-gradient-slate  { background: linear-gradient(135deg, hsl(30, 18%, 40%) 0%, hsl(30, 15%, 52%) 100%); }
+
+/* Card glass shimmer */
+.card-hover {
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.card-hover:hover {
+  box-shadow: 0 8px 24px hsl(30, 25%, 15%, 0.10), 0 2px 6px hsl(30, 25%, 15%, 0.06);
+  transform: translateY(-1px);
+}
+
+/* Bell notification panel */
+.notif-panel {
+  animation: slideDown 200ms cubic-bezier(0.16,1,0.3,1);
+}
+@keyframes slideDown {
+  from { opacity:0; transform: translateY(-8px) scale(0.97); }
+  to   { opacity:1; transform: translateY(0) scale(1); }
+}
+
+/* Daily popup animation */
+.daily-popup {
+  animation: popupIn 300ms cubic-bezier(0.16,1,0.3,1);
+}
+@keyframes popupIn {
+  from { opacity:0; transform: scale(0.92) translateY(16px); }
+  to   { opacity:1; transform: scale(1) translateY(0); }
+}
