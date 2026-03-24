@@ -23,7 +23,3 @@ Seed initial data via SDK
 Create DonVi, ThuTuc, NgayLe, HoSoTNHS seed records through the SDK so the app has data to display.
 </todo>
 
-<todo>
-Add HCC to CommandPalette search results
-Include HCC records when searching in the command palette (currently only TNHS/NQT/DonVi/ThuTuc).
-</todo>
