@@ -2,7 +2,7 @@ export type TinhTrang = 'truoc_han' | 'can_han' | 'dung_han' | 'tre_han' | 'qua_
 
 export type VaiTro = 'admin' | 'operator' | 'viewer';
 
-export type ActiveSection = 'dashboard' | 'baocao' | 'tnhs' | 'nqt' | 'donvi' | 'thutuc' | 'ngayle' | 'users' | 'hcc';
+export type ActiveSection = 'dashboard' | 'baocao' | 'tnhs' | 'nqt' | 'donvi' | 'thutuc' | 'ngayle' | 'users' | 'hcc' | 'bbbg';
 
 // Legacy local type for UserManager (not SDK-backed)
 export interface NguoiDung {

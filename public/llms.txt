@@ -1,0 +1,40 @@
+# Quản Lý Hồ Sơ BHXH (QLHS)
+
+## Project Overview
+Hệ thống quản lý hồ sơ tiếp nhận và trả kết quả Bảo hiểm Xã hội (BHXH) — a Vietnamese Social Insurance document tracking and management system for government administrative staff.
+
+## Purpose
+This application helps BHXH (Social Insurance) officers:
+- Track and manage incoming documents (Hồ Sơ Tiếp Nhận - TNHS)
+- Handle resolution-based documents (Nghị Quyết - NQT)
+- Manage public administrative transfers (Hành Chính Công - HCC)
+- Generate and manage handover records (Biên Bản Bàn Giao - BBBG)
+- Report and analyze document processing statistics (Báo Cáo)
+- Maintain master data: departments (Đơn Vị), procedures (Thủ Tục), holidays (Ngày Lễ)
+
+## Technology Stack
+- Frontend: React 18 + TypeScript + Vite
+- Styling: Tailwind CSS (dark retro navy/orange theme)
+- UI Components: Radix UI + custom components
+- Icons: Phosphor Icons + Lucide React
+- Animation: Framer Motion
+- Database/Auth: Anima Playground React SDK (hosted backend)
+- State: React Context API
+
+## Key Sections / Routes (hash-based)
+- `/` or `/#dashboard` — Main dashboard with KPI metrics and quick actions
+- `/#tnhs` — Hồ Sơ Tiếp Nhận: receive and track social insurance documents
+- `/#nqt` — Hồ Sơ Nghị Quyết: resolution-based document management
+- `/#hcc` — Hành Chính Công: public administration document transfers
+- `/#bbbg` — Biên Bản Bàn Giao: handover record management
+- `/#baocao` — Báo Cáo & Thống Kê: reports and statistics
+- `/#danhmuc` — Danh Mục: master data management (DonVi, ThuTuc, NgayLe)
+
+## Target Users
+Vietnamese social insurance government staff (cán bộ BHXH) responsible for document intake, processing, and return within regulated deadlines.
+
+## Language
+Primary language: Vietnamese (vi-VN)
+
+## Access
+Authentication required. Default credentials managed by system administrator.

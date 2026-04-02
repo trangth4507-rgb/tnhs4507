@@ -20,6 +20,59 @@ You MUST maintain this file to track your work across messages. This is NON-NEGO
 <changelog>
 <!-- NEXT_ENTRY_HERE -->
 
+## 2026-03-26 (Fix PrinterSimple icon)
+- `PrinterSimple` không tồn tại trong `@phosphor-icons/react` → đổi thành `Printer`
+- File: `src/components/danhmuc/BBBGManager.tsx`
+
+## 2026-03-26 (SEO Setup)
+- Rewrote `index.html`: lang="vi", optimized title, full meta/og/twitter/robots/JSON-LD tags
+- Created `public/site.webmanifest` (PWA manifest, theme color, icons)
+- Created `public/sitemap.xml` (all hash routes), `public/robots.txt` (allow all + Sitemap URL)
+- Created `public/llms.txt` describing the project for LLM crawlers
+
+## 2026-03-26 (Fix font tiếng Việt)
+- Xoá `@font-face` ITCKabelStd (không hỗ trợ Unicode/tiếng Việt)
+- Đổi sang `Inter` (body) + `Nunito` (heading) qua Google Fonts — hỗ trợ đầy đủ dấu tiếng Việt
+- Cập nhật `--font-sans`, `--font-heading` trong `src/index.css` và `tailwind.config.js`
+
+## 2026-03-26 (Monopoly Fonts)
+- Thêm `@font-face` cho `ITCKabelStd` Bold + Book từ URL Anima CDN vào `src/index.css`
+- Đặt `ITCKabelStd` làm font chính cho `--font-sans` và `--font-heading` (fallback: Nunito/Poppins)
+- Cập nhật `tailwind.config.js` fontFamily tương ứng
+
+## 2026-03-26 (Login Screen Retro Theme)
+- Áp dụng theme retro cam + navy vào `src/components/LoginScreen.tsx`
+- Nền `hsl(220,28%,8%)` navy sâu, card `hsl(220,30%,12%)`, input `hsl(220,28%,10%)`
+- Accent line cam gradient trên đầu card, icon logo viền cam + glow
+- Nút submit màu cam `hsl(28,100%,55%)` với chữ đậm navy, label uppercase tracking-widest
+
+## 2026-03-26 (Retro Orange + Dark Navy Theme)
+- Đổi toàn bộ màu sắc sang retro: nền `hsl(220,28%,10%)` xanh đậm navy, chữ `hsl(38,80%,92%)` kem vàng
+- Primary cam `hsl(28,100%,55%)`, sidebar `hsl(220,35%,8%)` gần đen, card `hsl(220,30%,13%)`
+- Border-radius giảm xuống (3/5/7/9px) cho cảm giác retro góc vuông
+- Metric gradient cards đổi sang tông retro tối + border highlight
+- Card hover: glow cam thay thế shadow trắng; scrollbar thumb hover → cam
+- Cập nhật cả `tailwind.config.js` và `src/index.css`
+
+## 2026-03-26 (HCC in CommandPalette)
+- Thêm `useQuery('HCC')` vào `src/components/CommandPalette.tsx`
+- Tìm kiếm HCC theo: maHs, tenDonViNhan, maDonViNhan, nguoiNhan, chiTiet
+- Kết quả HCC hiển thị với icon ShareNetwork màu tím, click → navigate đến section `hcc`
+
+## 2026-03-26 (Download Database)
+- Thêm nút "Xuất DB" vào Desktop TopBar header
+- Hook `useDownloadDatabase` dùng `useLazyQuery` để fetch song song tất cả 6 entity (HoSoTNHS, HoSoNQT, HCC, DonVi, ThuTuc, NgayLe)
+- Xuất JSON file `QLHS_database_YYYY-MM-DD.json` bằng Blob + URL.createObjectURL, loading state với spinner
+
+## 2026-03-26 (Thay avatar người dùng)
+- Sidebar user section: thay icon `<User>` bằng monogram avatar (chữ cái đầu tên, gradient cam)
+- File thay đổi: `src/components/layout/TopBar.tsx`
+
+## 2026-03-26 (Thêm màn hình đăng nhập)
+- Tạo `src/components/LoginScreen.tsx`: form đăng nhập với gradient BHXH, show/hide password, loading state, error message
+- Thêm `isLoggedIn`, `login()`, `logout()` vào `AppContext`; credentials tĩnh: `trangth / Trangth2026@#$`
+- `AppShell` trong `App.tsx` render `LoginScreen` nếu chưa đăng nhập, hiển thị app khi đã đăng nhập
+
 ## 2026-03-13 (Fix HCCManager syntax error)
 - `DonViAutocomplete` component định nghĩa bị lẫn vào giữa JSX pagination trong `HCCManager.tsx`
 - Chuyển `DonViAutocomplete` lên trước `HCCManager` (top-level) để fix lỗi "Unexpected token" dòng 354

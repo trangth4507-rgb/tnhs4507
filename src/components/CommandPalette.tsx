@@ -40,7 +40,7 @@ export default function CommandPalette() {
   const nqtResults = q ? nqtList.filter(h => h.maHoSo?.toLowerCase().includes(q) || (h.maBhxh || '').toLowerCase().includes(q)).slice(0, 3) : [];
   const donViResults = q ? donViList.filter(d => d.tenDonVi?.toLowerCase().includes(q) || d.maDonVi?.toLowerCase().includes(q)).slice(0, 3) : [];
   const thuTucResults = q ? thuTucList.filter(t => t.tenThuTuc?.toLowerCase().includes(q) || t.maThuTuc?.toLowerCase().includes(q)).slice(0, 3) : [];
-  const hccResults = q ? hccList.filter((h: any) => (h.maHs || '').toLowerCase().includes(q) || (h.tenDonViNhan || '').toLowerCase().includes(q) || (h.nguoiNhan || '').toLowerCase().includes(q)).slice(0, 3) : [];
+  const hccResults = q ? hccList.filter(h => (h.maHs || '').toLowerCase().includes(q) || (h.tenDonViNhan || '').toLowerCase().includes(q) || (h.maDonViNhan || '').toLowerCase().includes(q) || (h.nguoiNhan || '').toLowerCase().includes(q) || (h.chiTiet || '').toLowerCase().includes(q)).slice(0, 3) : [];
   const hasResults = tnhsResults.length > 0 || nqtResults.length > 0 || donViResults.length > 0 || thuTucResults.length > 0 || hccResults.length > 0;
 
   return (
@@ -127,13 +127,13 @@ export default function CommandPalette() {
           )}
           {hccResults.length > 0 && (
             <div>
-              <div className="px-4 py-2 text-caption text-muted-foreground font-medium uppercase tracking-wide bg-neutral-50">HCC</div>
-              {hccResults.map((h: any) => (
+              <div className="px-4 py-2 text-caption text-muted-foreground font-medium uppercase tracking-wide bg-neutral-50">Hành chính công (HCC)</div>
+              {hccResults.map(h => (
                 <button key={h.id} className="w-full flex items-center gap-3 px-4 py-3 hover:bg-neutral-100 transition-colors cursor-pointer text-left" onClick={() => { setActiveSection('hcc'); setCommandPaletteOpen(false); }}>
-                  <ShareNetwork size={16} weight="regular" className="text-orange-500 flex-shrink-0" />
+                  <ShareNetwork size={16} weight="regular" className="text-purple-500 flex-shrink-0" />
                   <div>
-                    <p className="text-body-sm font-medium text-foreground">{h.maHs || '—'}</p>
-                    <p className="text-caption text-muted-foreground">{h.tenDonViNhan} · {h.nguoiNhan || '—'}</p>
+                    <p className="text-body-sm font-medium text-foreground">{h.maHs}</p>
+                    <p className="text-caption text-muted-foreground">{h.tenDonViNhan || h.maDonViNhan}{h.nguoiNhan ? ` · ${h.nguoiNhan}` : ''}</p>
                   </div>
                 </button>
               ))}

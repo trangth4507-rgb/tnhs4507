@@ -4,7 +4,7 @@ import TopBar from './components/layout/TopBar';
 import ToastContainer from './components/layout/ToastContainer';
 import CommandPalette from './components/CommandPalette';
 import AlertModal from './components/AlertModal';
-// AlertModal manages its own open state via localStorage (daily once-morning, once-evening)
+import LoginScreen from './components/LoginScreen';
 import Dashboard from './components/dashboard/Dashboard';
 import BaoCaoDashboard from './components/dashboard/BaoCaoDashboard';
 import HoSoTable from './components/hoso/HoSoTable';
@@ -12,10 +12,15 @@ import DonViManager from './components/danhmuc/DonViManager';
 import ThuTucManager from './components/danhmuc/ThuTucManager';
 import NgayLeManager from './components/danhmuc/NgayLeManager';
 import HCCManager from './components/danhmuc/HCCManager';
+import BBBGManager from './components/danhmuc/BBBGManager';
 import UserManager from './components/users/UserManager';
 
 function AppShell() {
-  const { activeSection, setCommandPaletteOpen } = useApp();
+  const { activeSection, setCommandPaletteOpen, isLoggedIn, login } = useApp();
+
+  if (!isLoggedIn) {
+    return <LoginScreen onLogin={login} />;
+  }
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -38,6 +43,7 @@ function AppShell() {
       case 'thutuc': return <ThuTucManager />;
       case 'ngayle': return <NgayLeManager />;
       case 'hcc': return <HCCManager />;
+      case 'bbbg': return <BBBGManager />;
       case 'users': return <UserManager />;
       default: return <Dashboard />;
     }
@@ -52,7 +58,6 @@ function AppShell() {
         Bỏ qua điều hướng
       </a>
       <TopBar />
-      {/* Mobile: offset top bar (h-14). Desktop: offset sidebar (w-64) + mini topbar (h-14) */}
       <div id="main-content" className="pt-14 lg:pt-14 lg:pl-64 min-h-screen">
         {renderSection()}
       </div>

@@ -2,12 +2,13 @@ import React, { useState, useRef, useEffect } from 'react';
 import {
   House, ChartBar, Folders, FolderOpen, Buildings, ClipboardText,
   CalendarBlank, ShareNetwork, Users, MagnifyingGlass, Bell, X, List,
-  User, Gear, SignOut, CaretRight, Warning, Clock, CheckCircle
+  User, Gear, SignOut, CaretRight, Warning, Clock, CheckCircle, DownloadSimple, Spinner
 } from '@phosphor-icons/react';
 import { useApp } from '../../context/AppContext';
-import { useQuery } from '@animaapp/playground-react-sdk';
+import { useQuery, useLazyQuery } from '@animaapp/playground-react-sdk';
 import { ActiveSection } from '../../types';
 import { getTinhTrangBadgeClass, formatDate } from '../../utils/statusUtils';
+import ThemeEditor from './ThemeEditor';
 
 const NAV_ITEMS: { label: string; section: ActiveSection; icon: React.ReactNode; sub?: string }[] = [
   { label: 'Trang chủ', section: 'dashboard', icon: <House size={18} weight="fill" />, sub: 'Tổng quan' },
@@ -18,14 +19,15 @@ const NAV_ITEMS: { label: string; section: ActiveSection; icon: React.ReactNode;
   { label: 'Thủ tục', section: 'thutuc', icon: <ClipboardText size={18} weight="fill" />, sub: 'Danh mục' },
   { label: 'Ngày nghỉ', section: 'ngayle', icon: <CalendarBlank size={18} weight="fill" />, sub: 'Lịch' },
   { label: 'HCC', section: 'hcc', icon: <ShareNetwork size={18} weight="fill" />, sub: 'Hành chính' },
+  { label: 'BBBG', section: 'bbbg', icon: <ClipboardText size={18} weight="fill" />, sub: 'Biên bản' },
   { label: 'Người dùng', section: 'users', icon: <Users size={18} weight="fill" />, sub: 'Hệ thống' },
 ];
 
 const NAV_GROUPS = [
   { label: 'Tổng quan', items: NAV_ITEMS.slice(0, 2) },
   { label: 'Hồ sơ', items: NAV_ITEMS.slice(2, 4) },
-  { label: 'Danh mục', items: NAV_ITEMS.slice(4, 8) },
-  { label: 'Quản trị', items: NAV_ITEMS.slice(8) },
+  { label: 'Danh mục', items: NAV_ITEMS.slice(4, 9) },
+  { label: 'Quản trị', items: NAV_ITEMS.slice(9) },
 ];
 
 function BellPanel({ onClose, onNavigate }: { onClose: () => void; onNavigate: (s: ActiveSection) => void }) {
@@ -100,11 +102,52 @@ function BellPanel({ onClose, onNavigate }: { onClose: () => void; onNavigate: (
   );
 }
 
+function useDownloadDatabase() {
+  const [isDownloading, setIsDownloading] = useState(false);
+  const { query: queryTNHS } = useLazyQuery('HoSoTNHS');
+  const { query: queryNQT } = useLazyQuery('HoSoNQT');
+  const { query: queryHCC } = useLazyQuery('HCC');
+  const { query: queryDonVi } = useLazyQuery('DonVi');
+  const { query: queryThuTuc } = useLazyQuery('ThuTuc');
+  const { query: queryNgayLe } = useLazyQuery('NgayLe');
+
+  const download = async () => {
+    setIsDownloading(true);
+    try {
+      const [HoSoTNHS, HoSoNQT, HCC, DonVi, ThuTuc, NgayLe] = await Promise.all([
+        queryTNHS(),
+        queryNQT(),
+        queryHCC(),
+        queryDonVi(),
+        queryThuTuc(),
+        queryNgayLe(),
+      ]);
+      const payload = { exportedAt: new Date().toISOString(), HoSoTNHS, HoSoNQT, HCC, DonVi, ThuTuc, NgayLe };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `QLHS_database_${new Date().toISOString().slice(0, 10)}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error('Download failed', err);
+    } finally {
+      setIsDownloading(false);
+    }
+  };
+
+  return { download, isDownloading };
+}
+
 export default function TopBar() {
   const { activeSection, setActiveSection, setCommandPaletteOpen, currentUser } = useApp();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [bellOpen, setBellOpen] = useState(false);
+  const { download, isDownloading } = useDownloadDatabase();
 
   const { data: tnhsList = [] } = useQuery('HoSoTNHS');
   const { data: nqtList = [] } = useQuery('HoSoNQT');
@@ -177,9 +220,9 @@ export default function TopBar() {
               onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = 'var(--color-sidebar-hover)'; (e.currentTarget as HTMLButtonElement).style.color = '#fff'; }}
               onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = 'transparent'; (e.currentTarget as HTMLButtonElement).style.color = 'var(--color-sidebar-muted)'; }}
             >
-              <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
-                style={{ background: 'hsl(28,95%,58%)' }}>
-                <User size={15} weight="fill" className="text-white" />
+              <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-sm text-white flex-shrink-0"
+                style={{ background: 'linear-gradient(135deg, hsl(28,95%,52%), hsl(28,95%,68%))' }}>
+                {currentUser.ten ? currentUser.ten.charAt(0).toUpperCase() : 'U'}
               </div>
               <div className="flex-1 min-w-0 text-left">
                 <p className="text-sm font-semibold text-white truncate leading-tight">{currentUser.ten}</p>
@@ -226,6 +269,22 @@ export default function TopBar() {
           <MagnifyingGlass size={14} weight="regular" />
           <span className="flex-1 text-left">Tìm kiếm...</span>
           <kbd className="text-[10px] bg-neutral-200 text-neutral-500 px-1.5 py-0.5 rounded font-mono">⌘K</kbd>
+        </button>
+
+        {/* Theme Editor */}
+        <ThemeEditor />
+
+        {/* Download DB */}
+        <button
+          onClick={download}
+          disabled={isDownloading}
+          title="Tải xuống toàn bộ dữ liệu (JSON)"
+          className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-border bg-neutral-50 text-muted-foreground text-body-sm hover:border-primary/40 hover:bg-white hover:text-foreground transition-all duration-150 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+        >
+          {isDownloading
+            ? <Spinner size={14} className="animate-spin" />
+            : <DownloadSimple size={14} weight="bold" />}
+          <span className="text-xs font-semibold">{isDownloading ? 'Đang tải...' : 'Xuất DB'}</span>
         </button>
 
         {/* Bell notification */}
